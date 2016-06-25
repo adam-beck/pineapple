@@ -17,4 +17,8 @@ plugins.push({
   }
 });
 
+plugins.push({
+  register: require('hapi-auth-jwt2'),
+});
+
 module.exports = plugins;

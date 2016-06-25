@@ -2,7 +2,7 @@ import React from 'react';
 
 const App = () => (
   <div>
-    Placeholder for App!!!
+    Placeholder for App
   </div>
 );
 
