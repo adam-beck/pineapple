@@ -1,31 +1,30 @@
 import 'whatwg-fetch';
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { loginAttempt, loginSuccess, loginResume, logout } from '../actions';
 
 class App extends Component {
 
   constructor(props) {
     super(props);
 
-    this.state = {
-      loggedIn: !!localStorage.getItem('token')
-    };
-
     this.login = this.login.bind(this);
-    this.logOut = this.logOut.bind(this);
-
+    this.logoutClick = this.logoutClick.bind(this);
   }
 
   componentWillMount() {
+    const currentToken = localStorage.getItem('token');
+    if (currentToken) {
+      this.props.dispatch(loginResume(currentToken));
+    }
   }
 
   storeToken(token) {
     localStorage.setItem('token', token);
-    this.setState({
-      loggedIn: !!localStorage.getItem('token')
-    });
   }
 
   login() {
+    this.props.dispatch(loginAttempt());
     fetch('/api/auth', {
       method: 'POST',
       headers: {
@@ -38,29 +37,39 @@ class App extends Component {
       })
     }).then(response => response.json())
       .then(json => {
+        this.props.dispatch(loginSuccess(json.token));
         this.storeToken(json.token);
       });
   }
 
-  logOut() {
+  logoutClick() {
     localStorage.removeItem('token');
-    this.setState({
-      loggedIn: false
-    });
+    this.props.dispatch(logout());
   }
 
   render() {
     return (
       <div>
-        {this.state.loggedIn ? 'You are logged in!' : 'Sorry, you are not logged in'}
-
         <div>
+          {this.props.auth.isAuthenticated ? 'You are logged in!' : 'Please log in'}
           <button onClick={this.login}>Log In</button>
-          <button onClick={this.logOut}>Log Out</button>
+          <button onClick={this.logoutClick}>Log Out</button>
         </div>
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  };
+};
+
+
+App.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+};
+
+export default connect(mapStateToProps)(App);
