@@ -19,10 +19,6 @@ class App extends Component {
     }
   }
 
-  storeToken(token) {
-    localStorage.setItem('token', token);
-  }
-
   login() {
     this.props.dispatch(loginAttempt());
     fetch('/api/auth', {
@@ -37,8 +33,9 @@ class App extends Component {
       })
     }).then(response => response.json())
       .then(json => {
-        this.props.dispatch(loginSuccess(json.token));
-        this.storeToken(json.token);
+        const { token } = json;
+        localStorage.setItem('token', token);
+        this.props.dispatch(loginSuccess(token));
       });
   }
 
