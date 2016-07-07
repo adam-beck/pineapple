@@ -2,6 +2,7 @@ import 'whatwg-fetch';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { loginAttempt, loginSuccess, loginResume, logout } from '../actions';
+import jwtDecode from 'jwt-decode';
 
 class App extends Component {
 
@@ -15,7 +16,10 @@ class App extends Component {
   componentWillMount() {
     const currentToken = localStorage.getItem('token');
     if (currentToken) {
-      this.props.dispatch(loginResume(currentToken));
+      const decoded = jwtDecode(currentToken);
+      if (decoded.exp >= Date.now()) {
+        this.props.dispatch(loginResume(currentToken));
+      }
     }
   }
 
