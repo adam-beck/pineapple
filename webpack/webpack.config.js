@@ -4,6 +4,7 @@ const path = require('path');
 const precss = require('precss');
 const autoprefixer = require('autoprefixer');
 const cssnext = require('cssnext');
+const atImport = require('postcss-import');
 
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
@@ -33,7 +34,7 @@ module.exports = {
     ]
   },
   postcss: () => {
-    return [precss, autoprefixer, cssnext];
+    return [atImport, precss, autoprefixer, cssnext];
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

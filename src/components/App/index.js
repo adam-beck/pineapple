@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { loginAttempt, loginSuccess, loginResume, logout } from '../../actions'
 import jwtDecode from 'jwt-decode';
 
+import Header from '../Header';
+
 import styles from './styles.css';
 
 class App extends Component {
@@ -50,14 +52,17 @@ class App extends Component {
     this.props.dispatch(logout());
   }
 
+  // TODO: incorporate this into the Header
+  // <div className={styles.main}>
+  //   {this.props.auth.isAuthenticated ? 'You are logged in!' : 'Please log in'}
+  //   <button onClick={this.login}>Log In</button>
+  //   <button onClick={this.logoutClick}>Log Out</button>
+  // </div>
+
   render() {
     return (
       <div>
-        <div className={styles.main}>
-          {this.props.auth.isAuthenticated ? 'You are logged in!' : 'Please log in'}
-          <button onClick={this.login}>Log In</button>
-          <button onClick={this.logoutClick}>Log Out</button>
-        </div>
+        <Header />
       </div>
     );
   }
