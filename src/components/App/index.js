@@ -1,8 +1,10 @@
 import 'whatwg-fetch';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { loginAttempt, loginSuccess, loginResume, logout } from '../actions';
+import { loginAttempt, loginSuccess, loginResume, logout } from '../../actions'
 import jwtDecode from 'jwt-decode';
+
+import styles from './styles.css';
 
 class App extends Component {
 
@@ -51,7 +53,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <div>
+        <div className={styles.main}>
           {this.props.auth.isAuthenticated ? 'You are logged in!' : 'Please log in'}
           <button onClick={this.login}>Log In</button>
           <button onClick={this.logoutClick}>Log Out</button>
