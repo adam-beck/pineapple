@@ -1,14 +1,11 @@
-import 'whatwg-fetch';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { loginAttempt, loginSuccess, loginResume, logout } from '../../actions'
 import jwtDecode from 'jwt-decode';
 
-import Header from '../Header';
+import styles from './AuthControls.css';
 
-import styles from './styles.css';
-
-class App extends Component {
+class AuthControls extends Component {
 
   constructor(props) {
     super(props);
@@ -52,32 +49,29 @@ class App extends Component {
     this.props.dispatch(logout());
   }
 
-  // TODO: incorporate this into the Header
-  // <div className={styles.main}>
-  //   {this.props.auth.isAuthenticated ? 'You are logged in!' : 'Please log in'}
-  //   <button onClick={this.login}>Log In</button>
-  //   <button onClick={this.logoutClick}>Log Out</button>
-  // </div>
-
   render() {
     return (
-      <div>
-        <Header />
+      <div className={styles.main}>
+        <button className={styles.button}>Register</button>
+        {this.props.auth.isAuthenticated ?
+          <button className={styles.button} onClick={this.logoutClick}>Log Out</button> :
+          <button className={styles.button} onClick={this.login}>Log In</button>
+        }
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     auth: state.auth
   };
 };
 
-
-App.propTypes = {
+AuthControls.propTypes = {
   dispatch: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
-};
+}
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps)(AuthControls);
+
