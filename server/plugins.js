@@ -1,4 +1,5 @@
 const plugins = [];
+
 plugins.push({
   register: require('good'),
   options: {

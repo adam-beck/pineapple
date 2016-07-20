@@ -4,18 +4,6 @@ require('dotenv').config();
 
 const Hapi = require('hapi');
 const plugins = require('./plugins');
-const pg = require('pg');
-
-const postgresConfig = {
-  database: 'pineapple',
-  user: 'postgres',
-  password: '',
-  host: 'db',
-  port: 5432,
-  max: 10,
-  idleTimeoutMillis: 30000
-};
-
 
 const server = new Hapi.Server();
 server.connection({
@@ -27,9 +15,7 @@ const validate = (decoded, request, callback) => {
   return callback(null, !!decoded);
 };
 
-const pool = new pg.Pool(postgresConfig);
-const User = require('./utils/user');
-User.setPool(pool);
+const { User } = require('./models');
 
 server.register(plugins, () => {
 
@@ -48,7 +34,7 @@ server.register(plugins, () => {
     config: { auth: false },
     handler: (request, reply) => {
 
-      User.loginUser(request.payload.username, request.payload.password).then(token => {
+      User.login(request.payload.username, request.payload.password).then(token => {
         reply({
           token: token
         }).code(200);
@@ -65,20 +51,19 @@ server.register(plugins, () => {
     config: { auth: false },
     handler: (request, reply) => {
 
-      User.checkExists(request.payload.username).then(exists => {
+      User.exists(request.payload.username).then(exists => {
         if (exists) {
           return reply({
             message: 'Username already taken'
           }).code(400);
         }
 
-        const { firstName, lastName, username, email, password } = request.payload;
+        const { fullName, username, email, password } = request.payload;
 
-        return User.createUser({
+        return User.create({
           username,
           password,
-          firstName,
-          lastName,
+          fullName,
           email
         }).then(token => {
           return reply({

@@ -30,6 +30,9 @@ services:
       - app
     ports:
       - "5000:5432"
+    volumes:
+      - ./scripts/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./scripts/sql:/scripts
 
 networks:
   app:
