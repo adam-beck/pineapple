@@ -1,5 +1,7 @@
 'use strict';
 
+require('dotenv').config();
+
 const passwordUtils = require('../utils/passwordUtils');
 const JWT = require('jsonwebtoken');
 const SALT_ROUNDS = 15;
@@ -15,7 +17,7 @@ const exists = username => {
 const create = ({ username, password, fullName, email }) => {
 
   return passwordUtils.hashPassword(password, SALT_ROUNDS).then(hash => {
-    return _pool.query('INSERT INTO user (full_name, username, email, password) VALUES ($1, $2, $3, $4) RETURNING id', [
+    return _pool.query('INSERT INTO users (full_name, username, email, password) VALUES ($1, $2, $3, $4) RETURNING id', [
       fullName,
       username,
       email,
