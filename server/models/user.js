@@ -30,7 +30,11 @@ const create = ({ username, password, fullName, email }) => {
       };
 
       return JWT.sign(session, process.env.JWT_SECRET);
-    });
+    }).catch(error => {
+        if (error.code === '23505') {
+          throw new Error('Unique constraint violation. Username already exists.');
+        }
+      });
   });
 };
 

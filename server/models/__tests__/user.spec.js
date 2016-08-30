@@ -1,6 +1,6 @@
 const pg = require('pg');
 const { assert } = require('chai');
-const testUtilities = require('../test/test-utilities.js');
+const testUtilities = require('../__tests__/test-utilities.js');
 const { describe, beforeEach, it } = require('mocha');
 
 const config = {
@@ -55,6 +55,14 @@ describe('User', () => {
         assert.isDefined(jwt);
         done();
       }).catch(done);
+    });
+
+    it('should not allow for duplicate usernames', function(done) {
+      User.create({ username: 'foobar', password: 'abc123' }).catch(err => {
+        assert.isDefined(err);
+        done();
+      });
+
     });
 
   });

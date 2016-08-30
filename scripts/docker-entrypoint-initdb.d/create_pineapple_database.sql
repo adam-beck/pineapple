@@ -99,6 +99,13 @@ ALTER TABLE ONLY users
 
 
 --
+-- Name: users_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_username_key UNIQUE (username);
+
+--
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
 
