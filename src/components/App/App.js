@@ -1,8 +1,5 @@
-import React, { Component } from 'react';
-
+import React, { Component, PropTypes } from 'react';
 import Header from '../Header/Header';
-
-// import styles from './App.css';
 
 class App extends Component {
 
@@ -10,14 +7,18 @@ class App extends Component {
     super(props);
   }
 
-
   render() {
     return (
       <div>
         <Header />
+        {this.props.children}
       </div>
     );
   }
 }
+
+App.propTypes = {
+  children: PropTypes.node
+};
 
 export default App;

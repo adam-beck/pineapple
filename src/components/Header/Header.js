@@ -1,7 +1,8 @@
 import React from 'react';
 import styles from './Header.css';
+import { Link } from 'react-router';
 
-import AuthControls from '../AuthControls/AuthControls';
+// import AuthControls from '../AuthControls/AuthControls';
 
 const Header = () => (
   <header className={styles.header}>
@@ -10,7 +11,7 @@ const Header = () => (
       <h3 className={styles.name}>Pineapple</h3>
     </div>
     <div className={styles.right}>
-      <AuthControls />
+      <Link to={`/login`} activeStyle={{ display: 'none' }}>Login/Register</Link>
     </div>
   </header>
 );

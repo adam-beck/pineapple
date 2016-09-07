@@ -86,7 +86,7 @@ ALTER TABLE users OWNER TO postgres;
 --
 
 COPY users (id, username, email, password, full_name) FROM stdin;
-0b3d7c23-16a7-4d76-929b-1c9f8a8c5e2d	foobar	foobar@example.com	abc123	Foo Bar
+0b3d7c23-16a7-4d76-929b-1c9f8a8c5e2d	foobar	foobar@example.com	$2a$15$W73OSlKolQwuv8Ux02aKs.TAke5MlG4n77QlYEvillceTRPdcuOum	Foo Bar
 \.
 
 
@@ -104,6 +104,15 @@ ALTER TABLE ONLY users
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT users_username_key UNIQUE (username);
+
+
+--
+-- Name: users_username_key1; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_username_key1 UNIQUE (username);
+
 
 --
 -- Name: public; Type: ACL; Schema: -; Owner: postgres

@@ -3,6 +3,8 @@ import { Router, Route, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import App from '../components/App/App';
 
+import routes from '../routes';
+
 class Root extends Component {
   render() {
     const { store } = this.props;
@@ -10,7 +12,7 @@ class Root extends Component {
       <Provider store={store}>
         <div>
           <Router history={browserHistory}>
-            <Route path="/" component={App} />
+            {routes}
           </Router>
         </div>
       </Provider>

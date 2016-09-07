@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  justify-content: center
+}
+
+.container-first-child {
+  margin-right: 50px;
+}
+
+.input {
+  display: block;
+}

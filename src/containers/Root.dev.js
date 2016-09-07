@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { Router, Route, browserHistory } from 'react-router';
+import { Router, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
-import App from '../components/App/App';
 import DevTools from './DevTools';
+
+import routes from '../routes.js';
 
 class Root extends Component {
   render() {
@@ -11,7 +12,7 @@ class Root extends Component {
       <Provider store={store}>
         <div>
           <Router history={browserHistory}>
-            <Route path="/" component={App} />
+            {routes}
           </Router>
           <DevTools />
         </div>
