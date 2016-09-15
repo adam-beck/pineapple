@@ -58,12 +58,11 @@ server.register(plugins, () => {
           }).code(400);
         }
 
-        const { fullName, username, email, password } = request.payload;
+        const { username, email, password } = request.payload;
 
         return User.create({
           username,
           password,
-          fullName,
           email
         }).then(token => {
           return reply({

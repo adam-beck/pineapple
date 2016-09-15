@@ -26,6 +26,7 @@ const create = ({ username, password, fullName, email }) => {
       const session = {
         valid: true,
         id: result.rows[0].id,
+        username: result.rows[0].username,
         exp: new Date().getTime() + 30 * 60 * 1000 // expires in 30 minutes
       };
 
@@ -57,6 +58,7 @@ const login = (username, password) => {
     const session = {
       valid: true,
       id: user.id,
+      username: user.username,
       exp: new Date().getTime() + 30 * 60 * 1000
     };
 

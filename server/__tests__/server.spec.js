@@ -34,7 +34,6 @@ lab.test('should create user with payload information', done => {
     payload: {
       username: 'foo',
       password: 'helloworld',
-      fullName: 'Foo Bar',
       email: 'Foobar@helloworld.com'
     }
   };
@@ -46,7 +45,6 @@ lab.test('should create user with payload information', done => {
     sinon.assert.calledWith(createUserStub, sinon.match({
       username: 'foo',
       password: 'helloworld',
-      fullName: 'Foo Bar',
       email: 'Foobar@helloworld.com'
     }));
     done();

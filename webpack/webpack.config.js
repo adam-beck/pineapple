@@ -7,7 +7,7 @@ const cssnext = require('cssnext');
 const atImport = require('postcss-import');
 
 module.exports = {
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'source-map',
   entry: [
     'react-hot-loader/patch',
     'webpack-dev-server/client?http://0.0.0.0:4040',

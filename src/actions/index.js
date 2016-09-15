@@ -23,3 +23,9 @@ export const logout = () => {
     type: 'LOGOUT'
   };
 };
+
+export const registerAttempt = () => {
+  return {
+    type: 'REGISTER_ATTEMPT'
+  };
+}
