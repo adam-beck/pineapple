@@ -5,6 +5,10 @@ require('dotenv').config();
 const Hapi = require('hapi');
 const plugins = require('./plugins');
 
+const apiKey = 'key-46c60d5f84e147872c9f0ab8115aef82';
+const domain = 'duelvote.com';
+const mailgun = require('mailgun-js')({ apiKey, domain })
+
 const server = new Hapi.Server();
 server.connection({
   host: '0.0.0.0',
@@ -60,11 +64,27 @@ server.register(plugins, () => {
 
         const { username, email, password } = request.payload;
 
+        const data = {
+          from: 'Accounts <accounts@duelvote.com>',
+          to: email,
+          subject: 'Welcome',
+          text: 'Welcome to Duelvote!'
+        };
+
         return User.create({
           username,
           password,
           email
         }).then(token => {
+          new Promise((resolve, reject) => {
+            mailgun.messages().send(data, (error, body) => {
+              if (error) {
+                return reject(error);
+              }
+              return resolve(body);
+            });
+          });
+
           return reply({
             token: token
           }).code(200);

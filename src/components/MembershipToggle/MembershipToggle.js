@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { loginAttempt, loginSuccess, logout, registerAttempt } from '../../actions';
+import { browserHistory } from 'react-router';
 
 import styles from './MembershipToggle.css';
 
@@ -45,6 +46,7 @@ class MembershipToggle extends Component {
         if (token) {
           localStorage.setItem('token', token);
           this.props.dispatch(loginSuccess(token));
+          browserHistory.push('/');
         }
       });
   }
@@ -63,8 +65,13 @@ class MembershipToggle extends Component {
         email: this.state.registerEmail
       })
     }).then(response => response.json())
-    .then(() => {
-      // user has sucesfully registered
+    .then(json => {
+      const { token } = json;
+      if (token) {
+        localStorage.setItem('token', token);
+        this.props.dispatch(loginSuccess(token));
+        browserHistory.push('/');
+      }
     });
   }
 

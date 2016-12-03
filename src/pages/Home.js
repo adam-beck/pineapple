@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class Home extends Component {
 
@@ -9,10 +10,16 @@ class Home extends Component {
   render() {
     return (
       <div>
-        this is the app
+        {this.props.auth.isAuthenticated ? `Welcome, ${this.props.auth.userName}` : 'You are not logged in!!'}
       </div>
     );
   }
 }
 
-export default Home;
+const mapStateToProps = state => {
+  return {
+    auth: state.auth
+  };
+};
+
+export default connect(mapStateToProps)(Home);

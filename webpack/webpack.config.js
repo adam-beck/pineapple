@@ -1,13 +1,10 @@
 const webpack = require('webpack');
 const path = require('path');
 
-const precss = require('precss');
-const autoprefixer = require('autoprefixer');
-const cssnext = require('cssnext');
-const atImport = require('postcss-import');
-
+console.log(path.join(__dirname, '..'));
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'eval-source-map',
+  target: 'web',
   entry: [
     'react-hot-loader/patch',
     'webpack-dev-server/client?http://0.0.0.0:4040',
@@ -19,22 +16,39 @@ module.exports = {
     filename: 'bundle.js',
     publicPath: '/'
   },
-  module: {
-    loaders: [
-      {
-        test: /\.js$/,
-        include: path.join(__dirname, '..', 'src'),
-        loaders: ['babel']
-      },
-      {
-        test: /\.css$/,
-        include: path.join(__dirname, '..', 'src'),
-        loaders: ['style', 'css?modules&importLoaders=1', 'postcss']
-      }
-    ]
+  resolve: {
+    extensions: ['.ts', 'tsx', '.js', '.jsx']
   },
-  postcss: () => {
-    return [atImport, precss, autoprefixer, cssnext];
+  module: {
+    rules: [{
+      test: /\.css$/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            modules: true,
+            importLoaders: 1
+          }
+        },
+        {
+          loader: 'postcss-loader',
+          options: {
+            plugins: [
+              require('postcss-import'),
+              require('precss'),
+              require('autoprefixer'),
+              require('cssnext')
+            ]
+          }
+        }
+      ],
+      include: path.join(__dirname, '..', 'src')
+    }, {
+      test: /\.js$/,
+      use: ['babel-loader'],
+      include: path.join(__dirname, '..', 'src')
+    }]
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
